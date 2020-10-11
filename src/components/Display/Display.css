@@ -16,6 +16,18 @@
   font-size: 18px;
   line-height: 21px;
 }
+.bufferInput {
+  display: grid;
+  /* padding: auto 17px; */
+  font-size: 18px;
+  width: 100%;
+  /* line-height: 21px; */
+  background-color: transparent;
+  border: 0;
+  text-align: right;
+  color: #ffffff;
+  direction: ltr;
+}
 
 .display .result {
   direction: ltr;

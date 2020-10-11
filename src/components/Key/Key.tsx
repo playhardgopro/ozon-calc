@@ -8,19 +8,20 @@ export enum Operations {
   MINUS = "-",
   PLUS = "+",
   EQUAL = "=",
+  NUMBER = "num",
 }
 
 interface Props {
   value: string;
-  type: "number" | Operations;
-  onClick: (e: { value: string; type: "number" | Operations }) => void;
+  type: Operations;
+  onClick: (e: { value: string; type: Operations }) => void;
 }
 
 @Component
 export default class Key extends VueComponent<Props> {
   @Prop() private value!: string;
 
-  @Prop() private type!: "number" | Operations;
+  @Prop() private type!: Operations;
 
   @Emit("click")
   handleClick() {
@@ -33,7 +34,7 @@ export default class Key extends VueComponent<Props> {
         class={{
           [styles.number]: true,
           [styles.zero]: this.value === "0",
-          [styles.operation]: this.type !== "number",
+          [styles.operation]: this.type !== Operations.NUMBER,
           [styles.clear]: this.type === Operations.CLEAR,
         }}
         onClick={this.handleClick}

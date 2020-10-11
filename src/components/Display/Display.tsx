@@ -6,36 +6,44 @@ import styles from "./Display.css?module";
 import MyStore from "@/store/root";
 import { useStore } from "vuex-simple";
 
-interface Props {
-  // buffer: string;
-  // result: number
-}
-/**
- * Add spaces to "+" and "-"
- * @param {string[]} array
- * @returns {string[]}
- */
-function addSpacesToPlusAndMinus(array: string[]) {
-  return array
-    .join("")
-    .replace(/[+-]/gi, " $& ")
-    .split("");
-}
-
 @Component
 export default class Display extends VueComponent<Props> {
   typedStore: MyStore = useStore(this.$store);
+  // inputValue: string = this.typedStore.buffer;
+
   get buffer() {
-    return addSpacesToPlusAndMinus(this.typedStore.buffer);
+    return this.typedStore.buffer.replace(/[+-]/g, " $& ");
   }
   get result() {
     return this.typedStore.result;
   }
+  handleInput(event) {
+    const validatedValue = event.target.value.replace(/[^-\d+]/gi, "");
+    if (event.data?.match(/[\d\+\-]/gi) !== null) {
+      // console.log(event);
+      this.typedStore.setBuffer(validatedValue);
+    }
+
+    // this.inputValue = event.target.value;
+  }
+  handleEnter(event) {
+    if (event.keyCode === 13) {
+      this.typedStore.equal();
+    }
+  }
   render() {
     return (
       <div class={styles.display}>
-        {!!this.buffer && <span class={styles.buffer}>{this.buffer}</span>}
-        {!!this.result && <span class={styles.result}>{this.result}</span>}
+        <input
+          type="text"
+          class={styles.bufferInput}
+          value={this.buffer}
+          onInput={this.handleInput}
+          onKeyup={this.handleEnter}
+        />
+        {this.result === null ? null : (
+          <span class={styles.result}>{this.result}</span>
+        )}
       </div>
     );
   }

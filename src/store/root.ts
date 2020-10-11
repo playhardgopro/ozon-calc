@@ -1,37 +1,53 @@
 import { Mutation, State, Getter, Action } from 'vuex-simple';
 
 export default class MyStore {
-  @State() buffer: string[] = [];
-  @State() result: number = 0;
+  @State() buffer: string = "";
+  @State() result: number | null = null;
 
   @Mutation()
   setBuffer(payload: string) {
-    this.buffer = [...payload]
+    this.buffer = payload
   }
-
   @Mutation()
   pushBuffer(payload: string) {
-    this.buffer?.push(payload)
+    this.buffer += payload
   }
 
   @Mutation()
-  setResult(payload: number) {
+  setResult(payload: number | null) {
     this.result = payload
   }
 
   @Action()
   async clear() {
     this.setBuffer("")
-    this.setResult(0)
+    this.setResult(null)
   }
   @Action()
-  async updateDisplay(payload: any) {
+  async plus(payload: string) {
+    if (!isLastCharEqual(this.buffer, payload)) {
+      this.pushBuffer(payload)
+    }
+  }
+  @Action()
+  async minus(payload: string) {
+    if (!isLastCharEqual(this.buffer, payload)) {
+      this.pushBuffer(payload)
+    }
+  }
+  @Action()
+  async updateDisplay(payload: string) {
     this.pushBuffer(payload)
   }
   @Action()
   async equal() {
-    // this.setBuffer(this.buffer + payload)
-    const result: number = window.eval(this.buffer.join(''))
-    this.setResult(result)
+    if (!isLastCharEqual(this.buffer, "+") && !isLastCharEqual(this.buffer, "-")) {
+      const result: number = window.eval(this.buffer) || null
+      this.setResult(result)
+    }
   }
+}
+
+function isLastCharEqual(str: string, char: string) {
+  return str.charAt(str.length - 1) === char
 }
