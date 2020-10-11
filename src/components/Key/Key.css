@@ -1,0 +1,51 @@
+button {
+  display: inline-block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  font-weight: normal;
+  font-size: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.number {
+  display: grid;
+  place-items: center;
+  background-color: #d8d8d8;
+  font-family: HelveticaNeue;
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0px;
+  text-align: center;
+  transition: filter 120ms ease-in;
+  filter: none;
+}
+
+.number:hover {
+  filter: brightness(80%);
+  transition: filter 120ms ease-in;
+}
+
+.number:active {
+  filter: brightness(60%);
+  transition: filter 120ms ease-in;
+}
+
+.operation {
+  display: grid;
+  place-items: center;
+  background-color: #b15e5e;
+  color: #ffffff;
+}
+
+.operation.clear {
+  font-size: 16px;
+}
+
+.number.zero {
+  grid-area: zero;
+}

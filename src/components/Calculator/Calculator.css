@@ -1,0 +1,17 @@
+.calculator {
+  margin: 30px 41px 60px 33px;
+  height: 278px;
+  width: 234px;
+  background: #6D686F;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(43.5943px);
+  border-radius: 4px;
+  display: flex;
+  flex-flow: column nowrap;
+  /* grid-template-rows:  5em 200px 200px;  */
+  /* grid-template-columns: 200px 5em 50%;  */
+}
+.display {
+  height: 81px;
+  width: 100%;
+}

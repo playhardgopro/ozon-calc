@@ -1,0 +1,27 @@
+.display {
+  display: grid;
+  text-align: right;
+  font-family: Helvetica, Arial, sans-serif;
+  height: 81px;
+  padding: 12px 17px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow-x: hidden;
+  direction: rtl;
+  max-width: 100%;
+}
+
+.display .buffer {
+  direction: ltr;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.display .result {
+  direction: ltr;
+  font-size: 21px;
+  line-height: 24px;
+}
+.display .result::before {
+  content: "= ";
+}

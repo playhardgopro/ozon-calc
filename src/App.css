@@ -1,8 +1,30 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+@font-face {
+  font-family: HelveticaNeue;
+  src: url("./assets/fonts/HelveticaNeueCyr-Thin.eot") format("eot"),
+    url("./assets/fonts/HelveticaNeueCyr-Thin.woff") format("woff"),
+    url("./assets/fonts/HelveticaNeueCyr-Thin.ttf") format("truetype");
+  font-weight: thin;
+  font-style: italic;
+}
+
 #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
+  font-family: Helvetica, Arial, sans-serif;
+  /*   -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
+    color: #2c3e50; */
+  display: flex;
+  justify-content: center;
+}
