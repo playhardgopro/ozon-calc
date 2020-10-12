@@ -9,6 +9,9 @@ body {
   padding: 0;
   margin: 0;
 }
+body {
+  display: flex;
+}
 
 @font-face {
   font-family: HelveticaNeue;
@@ -27,4 +30,5 @@ body {
     color: #2c3e50; */
   display: flex;
   justify-content: center;
+  flex: 1 0;
 }

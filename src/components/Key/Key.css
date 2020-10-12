@@ -11,6 +11,14 @@ button {
   text-decoration: none;
   cursor: pointer;
 }
+button:disabled {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+button:disabled:hover,
+button:disabled:active {
+  filter: none;
+}
 
 .number {
   display: grid;
