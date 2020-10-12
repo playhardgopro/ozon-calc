@@ -4,6 +4,7 @@ import { Component, Prop, Emit, Watch } from "vue-property-decorator";
 type Props = {
   value: string;
   key: string;
+  readonly?: boolean;
   onInput?: (value: string) => void;
   onChange?: (value: string) => void;
   onKeyup?: (e: KeyboardEvent) => void;
@@ -18,6 +19,11 @@ export default class ConrolledInput extends VueComponent<Props> {
   onValueChanged(val: string, oldVal: string) {
     if (val !== oldVal) {
       const inputRef = this.$refs.input as HTMLInputElement;
+      /**
+       * Убираем все символы, кроме цифр, '+' и '-'
+       * Добавляем пробелы для знаков '+' и '-'
+       * sdf23+45 => 23 + 45
+       */
       const validatedVal = val.replace(/[^\d+-]/g, "").replace(/[+-]/g, " $& ");
       inputRef.value = validatedVal;
       this.currentValue = validatedVal;

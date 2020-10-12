@@ -28,6 +28,11 @@ const keys: { value: string; type: KeyType }[] = [
 @Component
 export default class Keyboard extends VueComponent {
   typedStore = useStore<MyStore>(this.$store);
+
+  get isLoading() {
+    return this.typedStore.isLoading;
+  }
+
   handleClick(e: { value: string; type: KeyType }) {
     switch (e.type) {
       case KeyType.CLEAR:
@@ -55,6 +60,7 @@ export default class Keyboard extends VueComponent {
             <Key
               value={key.value}
               type={key.type}
+              disabled={this.isLoading}
               key={`${key.value}-${index}`}
               onClick={this.handleClick}
             />

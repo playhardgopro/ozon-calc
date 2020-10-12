@@ -6,13 +6,14 @@ import styles from "./Key.css?module";
 interface Props {
   value: string;
   type: KeyType;
+  disabled?: boolean;
   onClick: (e: { value: string; type: KeyType }) => void;
 }
 
 @Component
 export default class Key extends VueComponent<Props> {
   @Prop() private value!: string;
-
+  @Prop() private disabled!: boolean;
   @Prop() private type!: KeyType;
 
   @Emit("click")
@@ -29,6 +30,7 @@ export default class Key extends VueComponent<Props> {
           [styles.operation]: this.type !== KeyType.NUMBER,
           [styles.clear]: this.type === KeyType.CLEAR,
         }}
+        disabled={this.disabled}
         onClick={this.handleClick}
       >
         {this.value}

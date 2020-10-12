@@ -10,6 +10,9 @@ import { useStore } from "vuex-simple";
 export default class Display extends VueComponent {
   typedStore = useStore<MyStore>(this.$store);
 
+  get isLoading() {
+    return this.typedStore.isLoading;
+  }
   get buffer() {
     return this.typedStore.buffer;
   }
@@ -20,6 +23,7 @@ export default class Display extends VueComponent {
     this.typedStore.setBuffer(value);
   }
   onEnterPress(event: KeyboardEvent) {
+    // Использовал event.key, потому что event.keyCode is deprecated
     if (event.key === "Enter") {
       this.typedStore.equal();
     }
@@ -31,6 +35,7 @@ export default class Display extends VueComponent {
           value={this.buffer}
           class={styles.buffer}
           key="input"
+          readonly={this.isLoading}
           onInput={this.onInput}
           onKeyup={this.onEnterPress}
         />

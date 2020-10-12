@@ -1,9 +1,15 @@
 import { Mutation, State, Getter, Action } from 'vuex-simple';
-import { isLastCharEqual } from './utils';
+import { isLastCharEqual, timeout } from './utils';
 
 export default class MyStore {
   @State() buffer: string = "";
   @State() result: number | null = null;
+  @State() isLoading: boolean = false
+
+  @Mutation()
+  setIsLoading(payload: boolean) {
+    this.isLoading = payload
+  }
 
   @Mutation()
   setBuffer(payload: string) {
@@ -42,10 +48,15 @@ export default class MyStore {
   }
   @Action()
   async equal() {
+    this.setIsLoading(true)
+    // Имитация запроса к серверу
+    await timeout(2000)
     if (!isLastCharEqual(this.buffer, "+") && !isLastCharEqual(this.buffer, "-")) {
-      const result: number = window.eval(this.buffer)
-      this.setResult(result)
+      const result: number = window.eval(this.buffer);
+      this.setResult(result);
+      this.setBuffer(result.toString());
     }
+    this.setIsLoading(false)
   }
 }
 
