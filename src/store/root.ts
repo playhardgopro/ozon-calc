@@ -1,4 +1,5 @@
 import { Mutation, State, Getter, Action } from 'vuex-simple';
+import { isLastCharEqual } from './utils';
 
 export default class MyStore {
   @State() buffer: string = "";
@@ -42,12 +43,9 @@ export default class MyStore {
   @Action()
   async equal() {
     if (!isLastCharEqual(this.buffer, "+") && !isLastCharEqual(this.buffer, "-")) {
-      const result: number = window.eval(this.buffer) || null
+      const result: number = window.eval(this.buffer)
       this.setResult(result)
     }
   }
 }
 
-function isLastCharEqual(str: string, char: string) {
-  return str.charAt(str.length - 1) === char
-}

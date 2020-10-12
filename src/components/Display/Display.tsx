@@ -1,47 +1,42 @@
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import { VueComponent } from "@/shims-vue";
 
-// import Keyboard from "@/components/Keyboard/Keyboard";
+import { ControlledInput } from "@/components";
 import styles from "./Display.css?module";
 import MyStore from "@/store/root";
 import { useStore } from "vuex-simple";
 
 @Component
-export default class Display extends VueComponent<Props> {
-  typedStore: MyStore = useStore(this.$store);
-  // inputValue: string = this.typedStore.buffer;
+export default class Display extends VueComponent {
+  typedStore = useStore<MyStore>(this.$store);
 
   get buffer() {
-    return this.typedStore.buffer.replace(/[+-]/g, " $& ");
+    return this.typedStore.buffer;
   }
   get result() {
     return this.typedStore.result;
   }
-  handleInput(event) {
-    const validatedValue = event.target.value.replace(/[^-\d+]/gi, "");
-    if (event.data?.match(/[\d\+\-]/gi) !== null) {
-      // console.log(event);
-      this.typedStore.setBuffer(validatedValue);
-    }
-
-    // this.inputValue = event.target.value;
+  onInput(value: string) {
+    this.typedStore.setBuffer(value);
   }
-  handleEnter(event) {
-    if (event.keyCode === 13) {
+  onEnterPress(event: KeyboardEvent) {
+    if (event.key === "Enter") {
       this.typedStore.equal();
     }
   }
   render() {
     return (
       <div class={styles.display}>
-        <input
-          type="text"
-          class={styles.bufferInput}
+        <ControlledInput
           value={this.buffer}
-          onInput={this.handleInput}
-          onKeyup={this.handleEnter}
+          class={styles.buffer}
+          key="input"
+          onInput={this.onInput}
+          onKeyup={this.onEnterPress}
         />
-        {this.result === null ? null : (
+        {this.result === null ? (
+          ""
+        ) : (
           <span class={styles.result}>{this.result}</span>
         )}
       </div>

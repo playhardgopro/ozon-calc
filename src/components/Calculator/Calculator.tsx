@@ -10,9 +10,6 @@ interface Props {
 
 @Component
 export default class Calculator extends VueComponent {
-  // @Prop()
-  // private msg!: string;
-
   render() {
     return (
       <div class={styles.calculator}>

@@ -1,50 +1,63 @@
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import { VueComponent } from "@/shims-vue";
+import { KeyType } from "@/typings/constants";
 
-import Key, { Operations } from "@/components/Key/Key";
+import Key from "@/components/Key/Key";
 
 import styles from "./Keyboard.css?module";
 import MyStore from "@/store/root";
 import { useStore } from "vuex-simple";
 
-interface Props {
-  msg: string;
-}
-
-const keys: { value: string; type: Operations }[] = [
-  { value: "7", type: Operations.NUMBER },
-  { value: "8", type: Operations.NUMBER },
-  { value: "9", type: Operations.NUMBER },
-  { value: "C", type: Operations.CLEAR },
-  { value: "4", type: Operations.NUMBER },
-  { value: "5", type: Operations.NUMBER },
-  { value: "6", type: Operations.NUMBER },
-  { value: "-", type: Operations.MINUS },
-  { value: "1", type: Operations.NUMBER },
-  { value: "2", type: Operations.NUMBER },
-  { value: "3", type: Operations.NUMBER },
-  { value: "+", type: Operations.PLUS },
-  { value: "0", type: Operations.NUMBER },
-  { value: "=", type: Operations.EQUAL },
+const keys: { value: string; type: KeyType }[] = [
+  { value: "7", type: KeyType.NUMBER },
+  { value: "8", type: KeyType.NUMBER },
+  { value: "9", type: KeyType.NUMBER },
+  { value: "C", type: KeyType.CLEAR },
+  { value: "4", type: KeyType.NUMBER },
+  { value: "5", type: KeyType.NUMBER },
+  { value: "6", type: KeyType.NUMBER },
+  { value: "-", type: KeyType.MINUS },
+  { value: "1", type: KeyType.NUMBER },
+  { value: "2", type: KeyType.NUMBER },
+  { value: "3", type: KeyType.NUMBER },
+  { value: "+", type: KeyType.PLUS },
+  { value: "0", type: KeyType.NUMBER },
+  { value: "=", type: KeyType.EQUAL },
 ];
 
 @Component
 export default class Keyboard extends VueComponent {
-  typedStore: MyStore = useStore(this.$store);
-  handleClick(e: { value: string; type: Operations }) {
-    if (e.type === Operations.CLEAR) this.typedStore.clear();
-    if (e.type === Operations.NUMBER) this.typedStore.updateDisplay(e.value);
-    if (e.type === Operations.PLUS) this.typedStore.plus(e.value);
-    if (e.type === Operations.MINUS) this.typedStore.minus(e.value);
-    if (e.type === Operations.EQUAL) this.typedStore.equal();
+  typedStore = useStore<MyStore>(this.$store);
+  handleClick(e: { value: string; type: KeyType }) {
+    switch (e.type) {
+      case KeyType.CLEAR:
+        this.typedStore.clear();
+        return;
+      case KeyType.PLUS:
+        this.typedStore.plus(e.value);
+        return;
+      case KeyType.MINUS:
+        this.typedStore.minus(e.value);
+        return;
+      case KeyType.EQUAL:
+        this.typedStore.equal();
+        return;
+      default:
+        this.typedStore.updateDisplay(e.value);
+    }
   }
 
   render() {
     return (
       <div class={styles.Keyboard}>
-        {keys.map((key) => {
+        {keys.map((key, index) => {
           return (
-            <Key value={key.value} type={key.type} onClick={this.handleClick} />
+            <Key
+              value={key.value}
+              type={key.type}
+              key={`${key.value}-${index}`}
+              onClick={this.handleClick}
+            />
           );
         })}
       </div>

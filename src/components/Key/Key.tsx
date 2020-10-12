@@ -1,27 +1,19 @@
 import { Component, Emit, Prop, Vue } from "vue-property-decorator";
 import { VueComponent } from "@/shims-vue";
-
+import { KeyType } from "@/typings/constants";
 import styles from "./Key.css?module";
-
-export enum Operations {
-  CLEAR = "C",
-  MINUS = "-",
-  PLUS = "+",
-  EQUAL = "=",
-  NUMBER = "num",
-}
 
 interface Props {
   value: string;
-  type: Operations;
-  onClick: (e: { value: string; type: Operations }) => void;
+  type: KeyType;
+  onClick: (e: { value: string; type: KeyType }) => void;
 }
 
 @Component
 export default class Key extends VueComponent<Props> {
   @Prop() private value!: string;
 
-  @Prop() private type!: Operations;
+  @Prop() private type!: KeyType;
 
   @Emit("click")
   handleClick() {
@@ -34,8 +26,8 @@ export default class Key extends VueComponent<Props> {
         class={{
           [styles.number]: true,
           [styles.zero]: this.value === "0",
-          [styles.operation]: this.type !== Operations.NUMBER,
-          [styles.clear]: this.type === Operations.CLEAR,
+          [styles.operation]: this.type !== KeyType.NUMBER,
+          [styles.clear]: this.type === KeyType.CLEAR,
         }}
         onClick={this.handleClick}
       >

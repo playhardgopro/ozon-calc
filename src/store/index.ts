@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 
 import { createVuexStore } from 'vuex-simple';
 
-import MyStore from './root';
+import MyStore from '@/store/root';
 
 Vue.use(Vuex);
 
