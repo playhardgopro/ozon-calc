@@ -15,9 +15,9 @@ body {
 
 @font-face {
   font-family: HelveticaNeue;
-  src: url("./assets/fonts/HelveticaNeueCyr-Thin.eot") format("eot"),
-    url("./assets/fonts/HelveticaNeueCyr-Thin.woff") format("woff"),
-    url("./assets/fonts/HelveticaNeueCyr-Thin.ttf") format("truetype");
+  src: url("/static/fonts/HelveticaNeueCyr-Thin.eot") format("eot"),
+    url("/static/fonts/HelveticaNeueCyr-Thin.woff") format("woff"),
+    url("/static/fonts/HelveticaNeueCyr-Thin.ttf") format("truetype");
   font-weight: thin;
   font-style: italic;
 }
