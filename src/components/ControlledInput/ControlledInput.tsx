@@ -1,10 +1,11 @@
 import { VueComponent } from "@/shims-vue";
-import { Component, Prop, Emit, Watch } from "vue-property-decorator";
+import { Component, Prop, Emit } from "vue-property-decorator";
 
 type Props = {
   value: string;
   key: string;
   readonly?: boolean;
+  validate?: (value: string) => string;
   onInput?: (value: string) => void;
   onChange?: (value: string) => void;
   onKeyup?: (e: KeyboardEvent) => void;
@@ -12,52 +13,39 @@ type Props = {
 
 @Component
 export default class ConrolledInput extends VueComponent<Props> {
-  @Prop() value = "";
-  currentValue = `${this.value}`;
+  @Prop({ default: "" }) value!: string;
+  @Prop({
+    default() {
+      return (value: string) => value;
+    },
+  })
+  validate!: (value: string) => string;
 
-  @Watch("value")
-  onValueChanged(val: string, oldVal: string) {
-    if (val !== oldVal) {
-      const inputRef = this.$refs.input as HTMLInputElement;
-      /**
-       * Убираем все символы, кроме цифр, '+' и '-'
-       * Добавляем пробелы для знаков '+' и '-'
-       * sdf23+45 => 23 + 45
-       */
-      const validatedVal = val.replace(/[^\d+-]/g, "").replace(/[+-]/g, " $& ");
-      inputRef.value = validatedVal;
-      this.currentValue = validatedVal;
-    }
+  get computedValue() {
+    return this.validate(this.value);
   }
+
   @Emit("change")
   handleChange(e: Event) {
     return (e.target as HTMLInputElement).value;
   }
   @Emit("input")
-  handleInput(e: Event) {
-    e.preventDefault();
-    const inputRef = this.$refs.input as HTMLInputElement;
-
-    this.currentValue = (e.target as HTMLInputElement).value;
-    inputRef.value = this.value;
-    return this.currentValue;
+  handleInput(e: InputEvent) {
+    return (e.target as HTMLInputElement).value;
   }
+
   get listeners() {
     return {
       ...this.$listeners,
       change: this.handleChange,
-      input: this.handleInput,
+      // & === .passive модификатор
+      "&input": this.handleInput,
     };
   }
 
   render() {
     return (
-      <input
-        {...this.$attrs}
-        value={this.currentValue}
-        ref="input"
-        on={this.listeners}
-      />
+      <input {...this.$attrs} value={this.computedValue} on={this.listeners} />
     );
   }
 }

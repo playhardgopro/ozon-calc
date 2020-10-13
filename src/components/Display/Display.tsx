@@ -1,7 +1,7 @@
 import { Component } from "vue-property-decorator";
 import { VueComponent } from "@/shims-vue";
 
-import { ControlledInput } from "@/components";
+import { ControlledInput, Spinner } from "@/components";
 import styles from "./Display.css?module";
 import MyStore from "@/store/root";
 import { useStore } from "vuex-simple";
@@ -19,13 +19,24 @@ export default class Display extends VueComponent {
   get result() {
     return this.typedStore.result;
   }
+  get showEqualitySign() {
+    return this.result && !this.isLoading;
+  }
+  validate(value: string) {
+    return value
+      .replace(/[^\d+-]/g, "") /* 'qwerty23+4asd-4' => '23+4-4'*/
+      .replace(/(\d+)|(\+)+|(\-)+/g, " $1$2$3"); /* '---123' => ' -123' */
+  }
   onInput(value: string) {
     this.typedStore.setBuffer(value);
   }
-  onEnterPress(event: KeyboardEvent) {
+  onKeyboardEvent(event: KeyboardEvent) {
     // Использовал event.key, потому что event.keyCode is deprecated
     if (event.key === "Enter") {
       this.typedStore.equal();
+    }
+    if (event.key === "Delete") {
+      this.typedStore.clear();
     }
   }
   render() {
@@ -36,14 +47,19 @@ export default class Display extends VueComponent {
           class={styles.buffer}
           key="input"
           readonly={this.isLoading}
+          validate={this.validate}
           onInput={this.onInput}
-          onKeyup={this.onEnterPress}
+          onKeyup={this.onKeyboardEvent}
         />
-        {this.result === null ? (
-          ""
-        ) : (
-          <span class={styles.result}>{this.result}</span>
-        )}
+        <span
+          class={{
+            [styles.result]: true,
+            [styles.equal]: this.showEqualitySign,
+          }}
+        >
+          &nbsp;
+          {this.isLoading ? <Spinner size={18} /> : this.result}
+        </span>
       </div>
     );
   }

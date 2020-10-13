@@ -26,37 +26,34 @@ export default class MyStore {
   }
 
   @Action()
-  async clear() {
+  clear() {
     this.setBuffer("")
     this.setResult(null)
   }
+
   @Action()
-  async plus(payload: string) {
-    if (!isLastCharEqual(this.buffer, payload)) {
-      this.pushBuffer(payload)
-    }
-  }
-  @Action()
-  async minus(payload: string) {
-    if (!isLastCharEqual(this.buffer, payload)) {
-      this.pushBuffer(payload)
-    }
-  }
-  @Action()
-  async updateDisplay(payload: string) {
+  updateBuffer(payload: string) {
     this.pushBuffer(payload)
   }
+
   @Action()
   async equal() {
-    this.setIsLoading(true)
-    // Имитация запроса к серверу
-    await timeout(2000)
-    if (!isLastCharEqual(this.buffer, "+") && !isLastCharEqual(this.buffer, "-")) {
-      const result: number = window.eval(this.buffer);
-      this.setResult(result);
-      this.setBuffer(result.toString());
+    if (!!this.buffer) {
+      try {
+        this.setIsLoading(true)
+        // Имитация запроса к серверу
+        await timeout(2000)
+        if (!isLastCharEqual(this.buffer, "+") && !isLastCharEqual(this.buffer, "-")) {
+          const result: number = window.eval(this.buffer);
+          this.setResult(result);
+          this.setBuffer(result.toLocaleString());
+        }
+      } catch (e) {
+        throw new Error('[EQUAL ACTION]: ' + e)
+      } finally {
+        this.setIsLoading(false)
+      }
     }
-    this.setIsLoading(false)
   }
 }
 

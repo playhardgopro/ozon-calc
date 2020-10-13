@@ -1,24 +1,27 @@
 import { Component, Emit, Prop, Vue } from "vue-property-decorator";
 import { VueComponent } from "@/shims-vue";
-import { KeyType } from "@/typings/constants";
+import { CalculatorKeyType } from "@/typings/constants";
 import styles from "./Key.css?module";
+import { CalculatorKey } from "@/typings/types";
 
 interface Props {
   value: string;
-  type: KeyType;
+  type: CalculatorKeyType;
+  text: string;
   disabled?: boolean;
-  onClick: (e: { value: string; type: KeyType }) => void;
+  onClick: (value: CalculatorKey) => void;
 }
 
 @Component
 export default class Key extends VueComponent<Props> {
   @Prop() private value!: string;
   @Prop() private disabled!: boolean;
-  @Prop() private type!: KeyType;
+  @Prop() private type!: CalculatorKeyType;
+  @Prop() private text!: string;
 
   @Emit("click")
-  handleClick() {
-    return { value: this.value, type: this.type };
+  handleClick(): CalculatorKey {
+    return { value: this.value, text: this.text, type: this.type };
   }
 
   render() {
@@ -27,13 +30,13 @@ export default class Key extends VueComponent<Props> {
         class={{
           [styles.number]: true,
           [styles.zero]: this.value === "0",
-          [styles.operation]: this.type !== KeyType.NUMBER,
-          [styles.clear]: this.type === KeyType.CLEAR,
+          [styles.operation]: this.type !== CalculatorKeyType.NUMBER,
+          [styles.clear]: this.type === CalculatorKeyType.CLEAR,
         }}
         disabled={this.disabled}
         onClick={this.handleClick}
       >
-        {this.value}
+        {this.text}
       </button>
     );
   }

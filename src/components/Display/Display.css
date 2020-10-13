@@ -11,13 +11,9 @@
   max-width: 100%;
 }
 
-.display .buffer {
-  display: grid;
-  /* padding: auto 17px; */
+.buffer {
   font-size: 18px;
-  width: 100%;
   overflow-x: hidden;
-  /* line-height: 21px; */
   background-color: transparent;
   border: 0;
   text-align: right;
@@ -25,11 +21,11 @@
   direction: ltr;
 }
 
-.display .result {
+.result {
   direction: ltr;
   font-size: 21px;
   line-height: 24px;
 }
-.display .result::before {
-  content: "= ";
+.result.equal::before {
+  content: "=";
 }
