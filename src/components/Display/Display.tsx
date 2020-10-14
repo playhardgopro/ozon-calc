@@ -25,7 +25,7 @@ export default class Display extends VueComponent {
   validate(value: string) {
     return value
       .replace(/[^\d+-]/g, "") /* 'qwerty23+4asd-4' => '23+4-4'*/
-      .replace(/(\d+)|(\+)+|(\-)+/g, " $1$2$3"); /* '---123' => ' -123' */
+      .replace(/(\d+)|(\+)+|(\-)+/g, " $1$2$3"); /* '123-456' => ' 123 - 456' */
   }
   onInput(value: string) {
     this.typedStore.setBuffer(value);
@@ -45,19 +45,19 @@ export default class Display extends VueComponent {
         <ControlledInput
           value={this.buffer}
           class={styles.buffer}
-          key="input"
           readonly={this.isLoading}
           validate={this.validate}
           onInput={this.onInput}
           onKeyup={this.onKeyboardEvent}
         />
         <span
-          class={{
-            [styles.result]: true,
-            [styles.equal]: this.showEqualitySign,
-          }}
+          class={[
+            styles.result,
+            {
+              [styles.equal]: this.showEqualitySign,
+            },
+          ]}
         >
-          &nbsp;
           {this.isLoading ? <Spinner size={18} /> : this.result}
         </span>
       </div>

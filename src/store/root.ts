@@ -1,4 +1,4 @@
-import { Mutation, State, Getter, Action } from 'vuex-simple';
+import { Mutation, State, Action } from 'vuex-simple';
 import { isLastCharEqual, timeout } from './utils';
 
 export default class MyStore {
@@ -38,16 +38,14 @@ export default class MyStore {
 
   @Action()
   async equal() {
-    if (!!this.buffer) {
+    if (!!this.buffer && !isLastCharEqual(this.buffer, "+") && !isLastCharEqual(this.buffer, "-")) {
       try {
         this.setIsLoading(true)
         // Имитация запроса к серверу
         await timeout(2000)
-        if (!isLastCharEqual(this.buffer, "+") && !isLastCharEqual(this.buffer, "-")) {
-          const result: number = window.eval(this.buffer);
-          this.setResult(result);
-          this.setBuffer(result.toLocaleString());
-        }
+        const result: number = window.eval(this.buffer);
+        this.setResult(result);
+        this.setBuffer(result.toLocaleString());
       } catch (e) {
         throw new Error('[EQUAL ACTION]: ' + e)
       } finally {

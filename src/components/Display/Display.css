@@ -1,8 +1,13 @@
+/* normalize */
+input {
+  padding: 0;
+}
+
 .display {
   display: grid;
+  grid-template-rows: repeat(2, 1fr);
   text-align: right;
   font-family: Helvetica, Arial, sans-serif;
-  height: 81px;
   padding: 12px 17px;
   color: #ffffff;
   white-space: nowrap;
@@ -12,10 +17,10 @@
 }
 
 .buffer {
-  font-size: 18px;
   overflow-x: hidden;
   background-color: transparent;
   border: 0;
+  font-size: 18px;
   text-align: right;
   color: #ffffff;
   direction: ltr;
@@ -26,6 +31,7 @@
   font-size: 21px;
   line-height: 24px;
 }
-.result.equal::before {
-  content: "=";
+
+.equal::before {
+  content: "= ";
 }

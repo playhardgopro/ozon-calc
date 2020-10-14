@@ -1,51 +1,57 @@
 import { VueComponent } from "@/shims-vue";
-import { Component, Prop, Emit } from "vue-property-decorator";
+import { Component, Prop, Watch } from "vue-property-decorator";
 
-type Props = {
+interface Props {
   value: string;
-  key: string;
   readonly?: boolean;
   validate?: (value: string) => string;
   onInput?: (value: string) => void;
-  onChange?: (value: string) => void;
   onKeyup?: (e: KeyboardEvent) => void;
-};
+}
 
 @Component
 export default class ConrolledInput extends VueComponent<Props> {
-  @Prop({ default: "" }) value!: string;
+  @Prop({ default: "" }) value!: Props["value"];
   @Prop({
     default() {
       return (value: string) => value;
     },
   })
-  validate!: (value: string) => string;
+  validate: Props["validate"];
 
-  get computedValue() {
-    return this.validate(this.value);
+  currentValue = this.value;
+
+  @Watch("value")
+  onValueChange(newVal: Props["value"], oldVal: Props["value"]) {
+    if (newVal !== oldVal) {
+      this.currentValue = this.validate?.(this.value) ?? this.value;
+    }
+  }
+  @Watch("currentValue")
+  onCurrentValueChange(newVal: Props["value"], oldVal: Props["value"]) {
+    if (newVal !== oldVal) {
+      this.currentValue =
+        this.validate?.(this.currentValue) ?? this.currentValue;
+      this.$emit("input", this.currentValue);
+    }
   }
 
-  @Emit("change")
-  handleChange(e: Event) {
-    return (e.target as HTMLInputElement).value;
-  }
-  @Emit("input")
-  handleInput(e: InputEvent) {
-    return (e.target as HTMLInputElement).value;
-  }
+  // watch - это не очень хорошо; сделал через геттер и .passive ('&input') модификатор - chrome стал ругаться, а firefox нет
 
   get listeners() {
     return {
-      ...this.$listeners,
-      change: this.handleChange,
-      // & === .passive модификатор
-      "&input": this.handleInput,
+      keyup: this.$listeners.keyup,
     };
   }
 
   render() {
     return (
-      <input {...this.$attrs} value={this.computedValue} on={this.listeners} />
+      <input
+        {...this.$attrs}
+        type="text"
+        v-model={this.currentValue}
+        on={this.listeners}
+      />
     );
   }
 }

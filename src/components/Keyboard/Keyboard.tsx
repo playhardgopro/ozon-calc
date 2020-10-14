@@ -49,15 +49,15 @@ export default class Keyboard extends VueComponent {
 
   render() {
     return (
-      <div class={styles.Keyboard}>
-        {keys.map((key, index) => {
+      <div class={styles.keyboard}>
+        {keys.map((key) => {
           return (
             <Key
               value={key.value}
+              key={key.value}
               text={key.text}
               type={key.type}
               disabled={this.isLoading}
-              key={`${key.value}-${index}`}
               onClick={this.handleClick}
             />
           );

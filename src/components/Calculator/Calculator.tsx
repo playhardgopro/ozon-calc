@@ -10,7 +10,6 @@ export default class Calculator extends VueComponent {
     return (
       <div class={styles.calculator}>
         <Display />
-        {/* <div class={styles.display}>1+1+1</div> */}
         <Keyboard />
       </div>
     );

@@ -1,7 +1,6 @@
-.Keyboard {
+.keyboard {
   display: grid;
   margin: 0 1.5px 5px 1.5px;
-  background-color: aquamarine;
   height: 192px;
   grid-gap: 2px;
   background-color: #979797;
@@ -10,6 +9,4 @@
     "four five six minus"
     "one two three plus"
     "zero zero zero equal";
-  /* grid-template-rows: repeat(4, 1fr); */
-  /* grid-template-columns: repeat(4, 1fr); */
 }

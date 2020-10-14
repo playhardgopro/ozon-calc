@@ -14,27 +14,32 @@ interface Props {
 
 @Component
 export default class Key extends VueComponent<Props> {
-  @Prop() private value!: string;
-  @Prop() private disabled!: boolean;
-  @Prop() private type!: CalculatorKeyType;
-  @Prop() private text!: string;
+  @Prop() private value!: Props["value"];
+  @Prop() private disabled!: Props["disabled"];
+  @Prop() private type!: Props["type"];
+  @Prop() private text!: Props["text"];
 
   @Emit("click")
   handleClick(): CalculatorKey {
     return { value: this.value, text: this.text, type: this.type };
   }
+  get listeners() {
+    return { ...this.$listeners, click: this.handleClick };
+  }
 
   render() {
     return (
       <button
-        class={{
-          [styles.number]: true,
-          [styles.zero]: this.value === "0",
-          [styles.operation]: this.type !== CalculatorKeyType.NUMBER,
-          [styles.clear]: this.type === CalculatorKeyType.CLEAR,
-        }}
+        class={[
+          styles.number,
+          {
+            [styles.zero]: this.value === "0",
+            [styles.operation]: this.type !== CalculatorKeyType.NUMBER,
+            [styles.clear]: this.type === CalculatorKeyType.CLEAR,
+          },
+        ]}
         disabled={this.disabled}
-        onClick={this.handleClick}
+        on={this.listeners}
       >
         {this.text}
       </button>

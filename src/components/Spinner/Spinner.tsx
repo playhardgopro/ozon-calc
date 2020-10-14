@@ -9,7 +9,7 @@ interface Props {
 
 @Component
 export default class Spinner extends VueComponent<Props> {
-  @Prop({ default: 32 }) size!: number;
+  @Prop({ default: 32 }) size!: Props["size"];
 
   render() {
     return (

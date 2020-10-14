@@ -1,8 +1,7 @@
+/* normalize */
 button {
-  display: inline-block;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  font-family: HelveticaNeue;
+  line-height: 21px;
   margin: 0;
   padding: 0;
   border-width: 0;
@@ -14,23 +13,12 @@ button {
 button:disabled {
   background-color: rgba(255, 255, 255, 0.5);
   color: #ffffff;
-}
-button:disabled:hover,
-button:disabled:active {
   filter: none;
 }
 
 .number {
-  display: grid;
-  place-items: center;
   background-color: #d8d8d8;
-  font-family: HelveticaNeue;
-  font-size: 18px;
-  line-height: 21px;
-  letter-spacing: 0px;
-  text-align: center;
   transition: filter 120ms ease-in;
-  filter: none;
 }
 
 .number:hover {
@@ -44,16 +32,14 @@ button:disabled:active {
 }
 
 .operation {
-  display: grid;
-  place-items: center;
   background-color: #b15e5e;
   color: #ffffff;
 }
 
-.operation.clear {
+.clear {
   font-size: 16px;
 }
 
-.number.zero {
+.zero {
   grid-area: zero;
 }

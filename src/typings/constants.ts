@@ -1,7 +1,7 @@
 export enum CalculatorKeyType {
-  CLEAR = "C",
-  MINUS = "—",
-  PLUS = "+",
-  EQUAL = "=",
-  NUMBER = "num",
+  CLEAR = "CLEAR",
+  MINUS = "MINUS",
+  PLUS = "PLUS",
+  EQUAL = "EQUAL",
+  NUMBER = "NUMBER",
 }
