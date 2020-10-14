@@ -36,7 +36,8 @@ export default class ConrolledInput extends VueComponent<Props> {
     }
   }
 
-  // watch - это не очень хорошо; сделал через геттер и .passive ('&input') модификатор - chrome стал ругаться, а firefox нет
+  // 2 watch - это не очень хорошо; 
+  // сделал через геттер и .passive ('&input') модификатор - chrome стал ругаться, а firefox нет
 
   get listeners() {
     return {

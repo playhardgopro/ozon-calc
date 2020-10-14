@@ -43,6 +43,7 @@ export default class MyStore {
         this.setIsLoading(true)
         // Имитация запроса к серверу
         await timeout(2000)
+        // eval - небезопасно, но мы контролируем инпут, пользователь не может туда ввести опасный код
         const result: number = window.eval(this.buffer);
         this.setResult(result);
         this.setBuffer(result.toLocaleString());
